@@ -18,20 +18,18 @@
       $db_passwd = 'HappenGreatStandLearnVery';
       $db_name = 'approvaldb';
       $db_host = 'approval-database.ccuflugukunx.us-east-1.rds.amazonaws.com';
-
-      $connection = mysqli_connect($db_host, $db_user, $db_passwd);
-      if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
-      $database = mysqli_select_db($connection, $db_name);
+      $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+      $pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
 
       // If customising the database, the insert statement and variables will need to be altered accordingly.
 
-      $fname = mysqli_real_escape_string($connection, $_POST["fname"]);
-      $lname = mysqli_real_escape_string($connection, $_POST["lname"]);
-      $email = mysqli_real_escape_string($connection, $_POST["email"]);
-      $description = mysqli_real_escape_string($connection, $_POST["description"]);
+      $fname = $_POST["fname"];
+      $lname = $_POST["lname"];
+      $email = $_POST["email"];
+      $description = $_POST["description"];
 
-      $query = "INSERT INTO requests (fname, lname, email, description) VALUES ($fname, $lname, $email, $description);";
-      if(!mysqli_query($connection, $query)) echo("<p>Error adding request.</p>");
+      $stmt = $pdo->prepare("INSERT INTO requests (fname, lname, email, description) VALUES (?,?,?,?)");
+      $stmt->execute([$fname, $lname, $email, $description]);
     ?>
 
   </div>

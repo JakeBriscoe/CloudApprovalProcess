@@ -13,7 +13,7 @@
     <p>Please fill in this form to submit a request.</p><br>
 
     <div class="input">
-    <form action="/process.php" method="post">
+    <form action="process.php" method="post" name='submitForm'>
     <hr>
 
       <!-- The below labels and inputs can be customised as required -->

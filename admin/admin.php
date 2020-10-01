@@ -14,23 +14,23 @@
   $db_name = 'approvaldb';
   $db_host = 'approval-database.ccuflugukunx.us-east-1.rds.amazonaws.com';
 
-  $connection = mysqli_connect($db_host, $db_user, $db_passwd);
-  $database = mysqli_select_db($connection, $db_name);
+  $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+  $pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
 
   // Alter status
   // An email function could be called inside each of these if statements
   if( isset( $_POST['accept'] ) ) {
     $did = $_POST['id'];
-    $query = "UPDATE requests SET status='Approved' WHERE request_id=$did;";
-    if(!mysqli_query($connection, $query)) echo("<p>Error accepting request.</p>");
+    $stmt = $pdo->prepare("UPDATE requests SET status='Approved' WHERE request_id=?");
+    $stmt->execute([$did]);
   } else if ( isset($_POST['reject']) ) {
       $did = $_POST['id'];
-      $query = "UPDATE requests SET status='Rejected' WHERE request_id=$did;";
-      if(!mysqli_query($connection, $query)) echo("<p>Error rejecting request.</p>");
+      $stmt = $pdo->prepare("UPDATE requests SET status='Rejected' WHERE request_id=?");
+      $stmt->execute([$did]);
   }
 
   // Get all pending requests
-  $result = mysqli_query($connection, "SELECT * FROM requests WHERE status='Pending'");
+  $q = $pdo->query("SELECT * FROM requests WHERE status='Pending'");
 
   ?>
 
@@ -40,7 +40,6 @@
     <hr>
       <?php
 
-        $count = 0;
         while($row = $q->fetch()){
 
           // If customising to fit your purpose, these attributes will need to match your database.
@@ -57,12 +56,6 @@
                 <input type=hidden name=id value=".$row["request_id"]." >
                 <button type=submit class='reject' name=reject>Reject</button><br><br><br>
                 </form>";
-
-          $count += 1;
-        }
-
-        if ($count == 0) {
-          echo "<p>There are no pending submissions.</p>";
         }
 
       ?>
