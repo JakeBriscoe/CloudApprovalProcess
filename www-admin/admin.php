@@ -8,29 +8,28 @@
 
   <?php
 
-  // Connect to database
-  $db_host   = '192.168.2.12';
-  $db_name   = 'fvision';
-  $db_user   = 'webuser';
-  $db_passwd = 'insecure_db_pw';
+  $db_user = 'master';
+  $db_passwd = 'HappenGreatStandLearnVery';
+  $db_name = 'approvaldb';
+  $db_host = 'approval-database.ccuflugukunx.us-east-1.rds.amazonaws.com';
 
-  $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-  $pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
+  $connection = mysqli_connect($db_host, $db_user, $db_passwd);
+  $database = mysqli_select_db($connection, $db_name);
 
   // Alter status
   // An email function could be called inside each of these if statements
   if( isset( $_POST['accept'] ) ) {
     $did = $_POST['id'];
-    $stmt = $pdo->prepare("UPDATE requests SET status='Approved' WHERE request_id=?");
-    $stmt->execute([$did]);
+    $query = "UPDATE requests SET status='Approved' WHERE request_id=$did;";
+    if(!mysqli_query($connection, $query)) echo("<p>Error accepting request.</p>");
   } else if ( isset($_POST['reject']) ) {
       $did = $_POST['id'];
-      $stmt = $pdo->prepare("UPDATE requests SET status='Rejected' WHERE request_id=?");
-      $stmt->execute([$did]);
+      $query = "UPDATE requests SET status='Rejected' WHERE request_id=$did;";
+      if(!mysqli_query($connection, $query)) echo("<p>Error rejecting request.</p>");
   }
 
   // Get all pending requests
-  $q = $pdo->query("SELECT * FROM requests WHERE status='Pending'");
+  $result = mysqli_query($connection, "SELECT * FROM requests WHERE status='Pending'");
 
   ?>
 
