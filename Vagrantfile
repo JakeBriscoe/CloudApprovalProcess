@@ -42,7 +42,8 @@ Vagrant.configure("2") do |config|
     aws.instance_type = "t2.micro"
 
     # Security group allowing inbound and outbound connections without restriction
-    aws.security_groups = ["sg-0d7e4e8332bcba5ef"] # Regan
+    # Below we have ssh access, web access, and RDS access
+    aws.security_groups = ["sg-0d7e4e8332bcba5ef", "sg-05bcf6d581bc9f707", "sg-089ac0901305ec53b"] # Regan
     # aws.security_groups = ["sg-03eabd1f67ea5102e"] # Jake
 
     # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
@@ -62,15 +63,36 @@ Vagrant.configure("2") do |config|
     # Makes Vagrant connect with "ubuntu" default username
     override.ssh.username = "ubuntu"
 
-
   end
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y apache2
-  SHELL
+  config.vm.define "webadmin" do |webadmin|
+
+     webadmin.vm.hostname = "webadmin"
+
+     # Enable provisioning with a shell script. Additional provisioners such as
+     # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+     # documentation for more information about their specific syntax and use.
+     webadmin.vm.provision "shell", inline: <<-SHELL
+       apt-get update
+       # Install Apache and PHP
+       apt-get install -y apache2 php libapache2-mod-php php-mysql
+       SHELL
+
+   end
+
+   config.vm.define "webuser" do |webuser|
+
+     webuser.vm.hostname = "webuser"
+
+     # Enable provisioning with a shell script. Additional provisioners such as
+     # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+     # documentation for more information about their specific syntax and use.
+     webuser.vm.provision "shell", inline: <<-SHELL
+       apt-get update
+       # Install Apache and PHP
+       apt-get install -y apache2 php libapache2-mod-php php-mysql
+       SHELL
+
+   end
 
 end

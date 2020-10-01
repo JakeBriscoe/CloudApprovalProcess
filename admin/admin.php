@@ -8,6 +8,7 @@
 
   <?php
 
+  // Connect to database
   $db_user = 'master';
   $db_passwd = 'HappenGreatStandLearnVery';
   $db_name = 'approvaldb';
@@ -39,6 +40,7 @@
     <hr>
       <?php
 
+        $count = 0;
         while($row = $q->fetch()){
 
           // If customising to fit your purpose, these attributes will need to match your database.
@@ -55,6 +57,12 @@
                 <input type=hidden name=id value=".$row["request_id"]." >
                 <button type=submit class='reject' name=reject>Reject</button><br><br><br>
                 </form>";
+
+          $count += 1;
+        }
+
+        if ($count == 0) {
+          echo "<p>There are no pending submissions.</p>";
         }
 
       ?>
