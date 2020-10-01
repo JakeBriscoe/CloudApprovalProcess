@@ -42,8 +42,8 @@ Vagrant.configure("2") do |config|
     aws.instance_type = "t2.micro"
 
     # Security group allowing inbound and outbound connections without restriction
-    # Below we have both ssh and web access
-    aws.security_groups = ["sg-0d7e4e8332bcba5ef", "sg-05bcf6d581bc9f707"] # Regan
+    # Below we have ssh access, web access, and RDS access
+    aws.security_groups = ["sg-0d7e4e8332bcba5ef", "sg-05bcf6d581bc9f707", "sg-089ac0901305ec53b"] # Regan
     # aws.security_groups = ["sg-03eabd1f67ea5102e"] # Jake
 
     # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
