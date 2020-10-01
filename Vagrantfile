@@ -43,8 +43,8 @@ Vagrant.configure("2") do |config|
 
     # Security group allowing inbound and outbound connections without restriction
     # Below we have ssh access, web access, and RDS access
-    aws.security_groups = ["sg-0d7e4e8332bcba5ef", "sg-05bcf6d581bc9f707", "sg-089ac0901305ec53b"] # Regan
-    # aws.security_groups = ["sg-03eabd1f67ea5102e"] # Jake
+    # aws.security_groups = ["sg-0d7e4e8332bcba5ef", "sg-05bcf6d581bc9f707", "sg-089ac0901305ec53b"] # Regan
+    aws.security_groups = ["sg-03eabd1f67ea5102e", "sg-04e5ff82033e54bb8", "sg-0ca507193372892d5"] # Jake
 
     # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
     # seems that a specific availability_zone needs to be selected
@@ -54,8 +54,8 @@ Vagrant.configure("2") do |config|
 
     #  A Amazon Educate availability zone and subnet id
     aws.availability_zone = "us-east-1a"
-    aws.subnet_id = "subnet-5621f930" # Regan
-    # aws.subnet_id = "subnet-c9b01496" # Jake
+    # aws.subnet_id = "subnet-5621f930" # Regan
+    aws.subnet_id = "subnet-c9b01496" # Jake
 
     # Makes it a Ubuntu VM
     aws.ami = "ami-07a985bed28dfbc01"
@@ -76,6 +76,19 @@ Vagrant.configure("2") do |config|
        apt-get update
        # Install Apache and PHP
        apt-get install -y apache2 php libapache2-mod-php php-mysql
+
+       sudo su
+       # Uncomment lines 890 and 894 from php.ini
+       sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
+       sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
+       # Move admin web files
+       mv ../../vagrant/admin/* ../../var/www/html/
+       # Remove user web files
+       rm -r ../../vagrant/user
+       exit
+       # Restart apache for changes in php.ini file to take affect
+       sudo service apache2 restart
+
        SHELL
 
    end
@@ -91,6 +104,19 @@ Vagrant.configure("2") do |config|
        apt-get update
        # Install Apache and PHP
        apt-get install -y apache2 php libapache2-mod-php php-mysql
+
+       sudo su
+       # Uncomment lines 890 and 894 from php.ini
+       sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
+       sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
+       # Move admin web files
+       mv ../../vagrant/user/* ../../var/www/html/
+       # Remove admin web files
+       rm -r ../../vagrant/admin
+       exit
+       # Restart apache for changes in php.ini file to take affect
+       sudo service apache2 restart
+
        SHELL
 
    end
