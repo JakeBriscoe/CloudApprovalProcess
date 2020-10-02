@@ -9,8 +9,8 @@
   <?php
 
   // Connect to database
-  $db_user = 'master';
-  $db_passwd = 'HappenGreatStandLearnVery';
+  $db_user = 'admin';
+  $db_passwd = 'ExcitedQuarrelSquareCrookGain';
   $db_name = 'approvaldb';
   $db_host = 'approval-database.ccuflugukunx.us-east-1.rds.amazonaws.com';
 

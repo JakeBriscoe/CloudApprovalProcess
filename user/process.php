@@ -14,8 +14,8 @@
 
     <?php
 
-      $db_user = 'master';
-      $db_passwd = 'HappenGreatStandLearnVery';
+      $db_user = 'webuser';
+      $db_passwd = 'ExperienceStretchThumbCommentCondemned';
       $db_name = 'approvaldb';
       $db_host = 'approval-database.ccuflugukunx.us-east-1.rds.amazonaws.com';
       $pdo_dsn = "mysql:host=$db_host;dbname=$db_name";

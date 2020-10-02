@@ -79,15 +79,15 @@ Vagrant.configure("2") do |config|
 
        sudo su
        # Uncomment lines 890 and 894 from php.ini
-       sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
-       sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
+       # sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
+       # sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
        # Move admin web files
        mv ../../vagrant/admin/* ../../var/www/html/
        # Remove user web files
        rm -r ../../vagrant/user
        exit
        # Restart apache for changes in php.ini file to take affect
-       sudo service apache2 restart
+       # sudo service apache2 restart
 
        SHELL
 
@@ -107,15 +107,15 @@ Vagrant.configure("2") do |config|
 
        sudo su
        # Uncomment lines 890 and 894 from php.ini
-       sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
-       sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
+       # sed -i '890s/^.//' ../../etc/php/7.0/cli/php.ini
+       # sed -i '894s/^.//' ../../etc/php/7.0/cli/php.ini
        # Move admin web files
        mv ../../vagrant/user/* ../../var/www/html/
        # Remove admin web files
        rm -r ../../vagrant/admin
        exit
        # Restart apache for changes in php.ini file to take affect
-       sudo service apache2 restart
+       # sudo service apache2 restart
 
        SHELL
 
